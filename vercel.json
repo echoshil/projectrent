@@ -1,0 +1,59 @@
+{
+
+"buildCommand": "pnpm run build",
+
+"outputDirectory": "dist/spa",
+
+"installCommand": "pnpm install",
+
+"framework": null,
+
+"functions": {
+
+"api/*.ts": {
+
+"runtime": "@vercel/node@latest"
+
+}
+
+},
+
+"rewrites": [
+
+{
+
+"source": "/api/:path*",
+
+"destination": "/api"
+
+}
+
+],
+
+"routes": [
+
+{
+
+"src": "/api/(.*)",
+
+"dest": "/api"
+
+},
+
+{
+
+"handle": "filesystem"
+
+},
+
+{
+
+"src": "/(.*)",
+
+"dest": "/index.html"
+
+}
+
+]
+
+}
