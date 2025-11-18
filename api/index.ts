@@ -1,25 +1,18 @@
-import { createServer } from "../server/index";
+import serverless from "serverless-http";
+import { createServer } from "../server/index.js";
 
-import type { VercelRequest, VercelResponse } from "@vercel/node";
+let handler;
 
-let app: any = null;
-
-async function getApp() {
-
-if (!app) {
-
-app = await createServer();
-
+async function getHandler() {
+  if (!handler) {
+    const app = await createServer();
+    handler = serverless(app);
+  }
+  return handler;
 }
 
-return app;
-
+export default async function (req, res) {
+  const handle = await getHandler();
+  return handle(req, res);
 }
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
-
-const app = await getApp();
-
-return app(req, res);
-
-}
